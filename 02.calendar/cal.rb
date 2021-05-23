@@ -4,7 +4,23 @@
 require 'optparse'
 require 'date'
 
-options = ARGV.getopts('m:y:').transform_values(&:to_i)
+MIN_YEAR = 1970
+MAX_YEAR = 2100
+
+options = ARGV.getopts('m:y:')
+
+# 引数チェック
+if options['y'] && (MIN_YEAR..MAX_YEAR).cover?(options['y'].to_i) == false
+  puts "#{File.basename($PROGRAM_NAME, '.*')}: year `#{options['y']}' not in range #{MIN_YEAR}..#{MAX_YEAR}"
+  exit
+end
+
+if options['m'] && (1..12).cover?(options['m'].to_i) == false
+  puts "#{File.basename($PROGRAM_NAME, '.*')}: #{options['m']} is neither a month number (1..12) nor a name"
+  exit
+end
+
+options.transform_values!(&:to_i)
 params = { month: options['m'], year: options['y'] }
 
 today = Date.today

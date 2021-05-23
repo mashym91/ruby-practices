@@ -25,7 +25,10 @@ print "      #{month}月 #{year}
   # 1日より前の未設定部分を空白表示
   print ('   ' * wday_index).to_s if num == 1
 
-  print "#{num.to_s.rjust(2)} " # 右詰め表示 + 余白調整（スペースを1つ入れる）
+  display_date = num.to_s.rjust(2) # 右詰め表示
+  # 今日の日付部分を反転
+  display_date = "\e[47m\e[30m#{display_date}\e[0m" if month == today.month && year == today.year && num == today.day
+  print "#{display_date} " # 余白調整（スペースを1つ入れる）
 
   # 土曜で改行
   print "\n" if Date.new(year, month, num).wday == 6

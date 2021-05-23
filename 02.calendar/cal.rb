@@ -3,12 +3,9 @@
 
 require 'optparse'
 require 'date'
-opt = OptionParser.new
 
-params = {}
-opt.on('-m VAL', 'specified month') { |v| params[:month] = Integer(v) }
-opt.on('-y VAL', 'specified year') { |v| params[:year] = Integer(v) }
-opt.parse!(ARGV)
+options = ARGV.getopts('m:y:').transform_values(&:to_i)
+params = { month: options['m'], year: options['y'] }
 
 today = Date.today
 month = (1..12).cover?(params[:month]) ? params[:month] : today.month

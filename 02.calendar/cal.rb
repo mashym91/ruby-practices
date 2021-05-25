@@ -33,16 +33,15 @@ print "      #{month}月 #{year}
 
 (beginning_of_month..end_of_month).each do |date|
   target_day = date.day # 日付取得
-  target_wday = date.wday # 曜日取得
 
   # 1日より前の未設定部分を空白表示
-  print('   ' * target_wday) if target_day == 1
+  print('   ' * date.wday) if target_day == 1
 
   display_date = target_day.to_s.rjust(2) # 右詰め表示
   # 今日の日付部分を反転
   display_date = "\e[47m\e[30m#{display_date}\e[0m" if date == today
   print "#{display_date} " # 余白調整（スペースを1つ入れる）
 
-  print "\n" if target_wday == 6 # 土曜で改行
+  print "\n" if date.saturday? # 土曜で改行
 end
 print "\n"

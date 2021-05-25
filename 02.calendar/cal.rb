@@ -31,17 +31,18 @@ end_of_month = Date.new(year, month, -1) # 月末
 print "      #{month}月 #{year}
 #{%w[日 月 火 水 木 金 土].join(' ')}\n"
 
-(beginning_of_month.day..end_of_month.day).each do |num|
-  wday = Date.new(year, month, num).wday # 曜日取得
+(beginning_of_month..end_of_month).each do |date|
+  target_day = date.day # 日付取得
+  target_wday = date.wday # 曜日取得
 
   # 1日より前の未設定部分を空白表示
-  print ('   ' * wday).to_s if num == 1
+  print ('   ' * target_wday) if target_day == 1
 
-  display_date = num.to_s.rjust(2) # 右詰め表示
+  display_date = target_day.to_s.rjust(2) # 右詰め表示
   # 今日の日付部分を反転
-  display_date = "\e[47m\e[30m#{display_date}\e[0m" if month == today.month && year == today.year && num == today.day
+  display_date = "\e[47m\e[30m#{display_date}\e[0m" if date == today
   print "#{display_date} " # 余白調整（スペースを1つ入れる）
 
-  print "\n" if wday == 6 # 土曜で改行
+  print "\n" if target_wday == 6 # 土曜で改行
 end
 print "\n"

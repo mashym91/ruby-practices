@@ -36,7 +36,7 @@ print "      #{month}月 #{year}
   target_wday = date.wday # 曜日取得
 
   # 1日より前の未設定部分を空白表示
-  print ('   ' * target_wday) if target_day == 1
+  print('   ' * target_wday) if target_day == 1
 
   display_date = target_day.to_s.rjust(2) # 右詰め表示
   # 今日の日付部分を反転

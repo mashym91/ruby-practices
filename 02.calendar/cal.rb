@@ -21,10 +21,9 @@ if options['m'] && (1..12).cover?(options['m'].to_i) == false
 end
 
 today = Date.today
-month, year = options.transform_values!(&:to_i).values_at('m', 'y') # 数値変換して分割代入
 # 引数指定がなければ今日の月、年を設定
-month = month.zero? ? today.month : month
-year = year.zero? ? today.year : year
+month = options['m']&.to_i || today.month
+year = options['y']&.to_i || today.year
 
 beginning_of_month = Date.new(year, month, 1) # 月初
 end_of_month = Date.new(year, month, -1) # 月末

@@ -4,7 +4,7 @@
 scores = ARGV[0].split(',')
 sum = 0
 is_skip = false
-frame_count = 1
+frame = 1
 
 def calc_score(score)
   score == 'X' ? 10 : score.to_i
@@ -19,11 +19,11 @@ scores.each_with_index do |score, index|
   next_first_score = scores[index + 1]
   next_second_score = scores[index + 2]
 
-  if score == 'X' || frame_count == 10 # strike or frame 10
+  if score == 'X' || frame == 10 # strike or frame 10
     sum += calc_score(score)
     sum += calc_score(next_first_score)
     sum += calc_score(next_second_score)
-    break if frame_count == 10
+    break if frame == 10
   elsif score.to_i + next_first_score.to_i == 10 # spare
     sum += 10
     sum += calc_score(next_second_score)
@@ -33,7 +33,7 @@ scores.each_with_index do |score, index|
     is_skip = true
   end
 
-  frame_count += 1
+  frame += 1
 end
 
 puts sum

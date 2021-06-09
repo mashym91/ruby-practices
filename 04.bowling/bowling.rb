@@ -24,7 +24,9 @@ scores.each_with_index do |score, index|
     sum += calc_score(next_first_score)
     sum += calc_score(next_second_score)
     break
-  elsif score == 'X' # strike
+  end
+
+  if score == 'X' # strike
     sum += 10
     sum += calc_score(next_first_score)
     sum += calc_score(next_second_score)

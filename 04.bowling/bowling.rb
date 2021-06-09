@@ -3,7 +3,7 @@
 
 scores = ARGV[0].split(',')
 sum = 0
-is_jump = false
+is_skip = false
 frame_count = 1
 
 def calc_score(score)
@@ -15,8 +15,8 @@ def calc_score(score)
 end
 
 scores.each_with_index do |score, index|
-  if is_jump
-    is_jump = false
+  if is_skip
+    is_skip = false
     next
   end
 
@@ -33,11 +33,11 @@ scores.each_with_index do |score, index|
   elsif score.to_i + (scores[index + 1]).to_i == 10 # spare
     sum += 10
     sum += calc_score(scores[index + 2]) # add next 1shot
-    is_jump = true
+    is_skip = true
   else
     # add 2shot
     sum += score.to_i + (scores[index + 1]).to_i
-    is_jump = true
+    is_skip = true
   end
 
   frame_count += 1

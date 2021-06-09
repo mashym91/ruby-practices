@@ -19,17 +19,11 @@ scores.each_with_index do |score, index|
   next_first_score = scores[index + 1]
   next_second_score = scores[index + 2]
 
-  if frame_count == 10
+  if score == 'X' || frame_count == 10 # strike or frame 10
     sum += calc_score(score)
     sum += calc_score(next_first_score)
     sum += calc_score(next_second_score)
-    break
-  end
-
-  if score == 'X' # strike
-    sum += 10
-    sum += calc_score(next_first_score)
-    sum += calc_score(next_second_score)
+    break if frame_count == 10
   elsif score.to_i + next_first_score.to_i == 10 # spare
     sum += 10
     sum += calc_score(next_second_score)

@@ -7,11 +7,7 @@ is_skip = false
 frame_count = 1
 
 def calc_score(score)
-  if score == 'X'
-    10
-  else
-    score.to_i
-  end
+  score == 'X' ? 10 : score.to_i
 end
 
 scores.each_with_index do |score, index|
@@ -23,7 +19,7 @@ scores.each_with_index do |score, index|
   if frame_count == 10
     sum += calc_score(score)
     sum += calc_score(scores[index + 1])
-    sum += calc_score(scores[index + 2]) if scores[index + 2]
+    sum += calc_score(scores[index + 2])
     break
   elsif score == 'X' # strike
     sum += 10

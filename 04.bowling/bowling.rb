@@ -16,23 +16,24 @@ scores.each_with_index do |score, index|
     next
   end
 
+  next_first_score = scores[index + 1]
+  next_second_score = scores[index + 2]
+
   if frame_count == 10
     sum += calc_score(score)
-    sum += calc_score(scores[index + 1])
-    sum += calc_score(scores[index + 2])
+    sum += calc_score(next_first_score)
+    sum += calc_score(next_second_score)
     break
   elsif score == 'X' # strike
     sum += 10
-    # add next 2shot
-    sum += calc_score(scores[index + 1])
-    sum += calc_score(scores[index + 2])
-  elsif score.to_i + (scores[index + 1]).to_i == 10 # spare
+    sum += calc_score(next_first_score)
+    sum += calc_score(next_second_score)
+  elsif score.to_i + next_first_score.to_i == 10 # spare
     sum += 10
-    sum += calc_score(scores[index + 2]) # add next 1shot
+    sum += calc_score(next_second_score)
     is_skip = true
   else
-    # add 2shot
-    sum += score.to_i + (scores[index + 1]).to_i
+    sum += score.to_i + next_first_score.to_i
     is_skip = true
   end
 

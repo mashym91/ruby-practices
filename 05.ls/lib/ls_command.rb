@@ -11,13 +11,14 @@ class LsCommand
 
   def exec
     files = read_files
-    Dir.chdir(@current_dir) # ディレクトリを元に戻す
 
     if @options.include?('l')
       files.map! do |file|
         generate_l_command_format(file)
       end
     end
+
+    Dir.chdir(@current_dir) # ディレクトリを元に戻す
 
     files.reverse! if @options.include?('r')
 

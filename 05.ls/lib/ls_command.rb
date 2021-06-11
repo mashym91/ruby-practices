@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 require 'etc'
 
 class LsCommand
@@ -50,14 +51,14 @@ class LsCommand
     file_info = ''
     stat = File.stat(file)
     mode = stat.mode.to_s(8)
-    file_info += File.directory?(file) ? 'd' : '-'  # ファイルタイプ
-    file_info += "#{convert_permission_to_str(mode)}  "  # パーミション
+    file_info += File.directory?(file) ? 'd' : '-' # ファイルタイプ
+    file_info += "#{convert_permission_to_str(mode)}  " # パーミション
     file_info += "#{stat.nlink} " # ハードリンクの数（2桁スペース埋め）
     file_info += "#{Etc.getpwuid(stat.uid).name}  " # オーナー名
     file_info += "#{Etc.getgrgid(stat.gid).name}  " # グループ名
     file_info += "#{stat.size}  " # バイトサイズ（5桁スペース埋め）
-    file_info += "#{stat.mtime.strftime("%-m %d %H:%M")} " # タイムスタンプ
-    file_info += file # ファイル名
+    file_info += "#{stat.mtime.strftime('%-m %d %H:%M')} " # タイムスタンプ
+    file_info + file # ファイル名
   end
 
   def convert_permission_to_str(mode)

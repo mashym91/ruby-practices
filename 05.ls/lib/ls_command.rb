@@ -11,7 +11,7 @@ class LsCommand
 
   def exec
     files = read_files
-    Dir.chdir(@current_dir)
+    Dir.chdir(@current_dir) # ディレクトリを元に戻す
 
     if @options.include?('l')
       files.map! do |file|
@@ -24,8 +24,7 @@ class LsCommand
     if @options.include?('l')
       files.join("\n")
     else
-      # 3列表示
-      generate_column_format(files)
+      generate_column_format(files) # DISPLAY_ROW毎の表示
     end
   end
 

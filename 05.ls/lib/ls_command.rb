@@ -61,7 +61,7 @@ class LsCommand
   end
 
   def convert_permission_to_str(mode)
-    permissions = { '0' => '---', '1' => '--x', '2' => '-w-', '3' => '-wx', '4' => 'w--', '5' => 'r-x', '6' => 'rw-', '7' => 'rwx' }
+    permissions = { '0' => '---', '1' => '--x', '2' => '-w-', '3' => '-wx', '4' => 'r--', '5' => 'r-x', '6' => 'rw-', '7' => 'rwx' }
 
     # 末尾から3文字取得
     mode.slice(-3..-1).chars.map { |item| permissions[item] }.join

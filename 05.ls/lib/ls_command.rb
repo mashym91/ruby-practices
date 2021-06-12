@@ -71,9 +71,9 @@ class LsCommand
   def generate_formatted_files_from_defined_column(files)
     row = (files.count.to_f / DISPLAY_COLUMN).ceil  # 行
     sort_files = []
-    row.times { sort_files << [] }
 
     row.times do |row_index|
+      sort_files << []
       DISPLAY_COLUMN.times do |column_index|
         sort_files[row_index] << files[row_index + row * column_index] ||= ''
         sort_files[row_index] << "\t"

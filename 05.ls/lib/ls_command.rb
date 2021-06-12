@@ -52,7 +52,7 @@ class LsCommand
     stat = File.stat(file)
     mode = stat.mode.to_s(8)
     file_info += File.directory?(file) ? 'd' : '-' # ファイルタイプ
-    file_info += "#{convert_permission_to_str(mode)}  " # パーミション
+    file_info += "#{convert_permission_to_symbolic_notation(mode)}  " # パーミション
     file_info += "#{stat.nlink} " # ハードリンクの数（2桁スペース埋め）
     file_info += "#{Etc.getpwuid(stat.uid).name}  " # オーナー名
     file_info += "#{Etc.getgrgid(stat.gid).name}  " # グループ名
@@ -61,10 +61,10 @@ class LsCommand
     file_info + file # ファイル名
   end
 
-  def convert_permission_to_str(mode)
+  def convert_permission_to_symbolic_notation(mode)
     permissions = { '0' => '---', '1' => '--x', '2' => '-w-', '3' => '-wx', '4' => 'r--', '5' => 'r-x', '6' => 'rw-', '7' => 'rwx' }
 
-    # 末尾から3文字取得して表記変換して結合
+    # 末尾から3文字取得してrwxr-xr-xのように変換
     mode.slice(-3..-1).chars.map { |item| permissions[item] }.join
   end
 

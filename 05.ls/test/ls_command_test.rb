@@ -12,6 +12,7 @@ class LsCommandTest < Minitest::Test
     assert_equal "lib\ttest\t\t\n", ls.exec
   end
 
+  # ディレクトリ指定
   def test_dir_no_option
     ls = LsCommand.new([], TEST_DIR)
     result = <<~TEXT
@@ -21,11 +22,6 @@ class LsCommandTest < Minitest::Test
       d.txt\th.txt\t\t
     TEXT
     assert_equal result, ls.exec
-  end
-
-  def test_file_no_option
-    ls = LsCommand.new([], TEST_FILE)
-    assert_equal "./test/ls_test_dir/c.txt\t\t\t\n", ls.exec
   end
 
   def test_dir_a_options
@@ -40,11 +36,6 @@ class LsCommandTest < Minitest::Test
     assert_equal result, ls.exec
   end
 
-  def test_file_a_options
-    ls = LsCommand.new(['a'], TEST_FILE)
-    assert_equal "./test/ls_test_dir/c.txt\t\t\t\n", ls.exec
-  end
-
   def test_dir_r_options
     ls = LsCommand.new(['r'], TEST_DIR)
     result = <<~TEXT
@@ -54,11 +45,6 @@ class LsCommandTest < Minitest::Test
       h.txt\td.txt\t\t
     TEXT
     assert_equal result, ls.exec
-  end
-
-  def test_file_r_options
-    ls = LsCommand.new(['r'], TEST_FILE)
-    assert_equal "./test/ls_test_dir/c.txt\t\t\t\n", ls.exec
   end
 
   def test_dir_l_options
@@ -80,11 +66,6 @@ class LsCommandTest < Minitest::Test
     assert_equal result.gsub(/\n$/, ''), ls.exec
   end
 
-  def test_file_l_options
-    ls = LsCommand.new(['l'], TEST_FILE)
-    assert_equal '-rw-r--r--  1 mashym91  staff  0  6 11 18:42 ./test/ls_test_dir/c.txt', ls.exec
-  end
-
   def test_dir_all_options
     ls = LsCommand.new(%w[a l r], TEST_DIR)
     result = <<~TEXT
@@ -104,6 +85,27 @@ class LsCommandTest < Minitest::Test
     TEXT
     # ヒアドキュメントで最後に改行コードが入るので削除
     assert_equal result.gsub(/\n$/, ''), ls.exec
+  end
+
+  # ファイル指定
+  def test_file_no_option
+    ls = LsCommand.new([], TEST_FILE)
+    assert_equal "./test/ls_test_dir/c.txt\t\t\t\n", ls.exec
+  end
+
+  def test_file_l_options
+    ls = LsCommand.new(['l'], TEST_FILE)
+    assert_equal '-rw-r--r--  1 mashym91  staff  0  6 11 18:42 ./test/ls_test_dir/c.txt', ls.exec
+  end
+
+  def test_file_a_options
+    ls = LsCommand.new(['a'], TEST_FILE)
+    assert_equal "./test/ls_test_dir/c.txt\t\t\t\n", ls.exec
+  end
+
+  def test_file_r_options
+    ls = LsCommand.new(['r'], TEST_FILE)
+    assert_equal "./test/ls_test_dir/c.txt\t\t\t\n", ls.exec
   end
 
   def test_file_all_options

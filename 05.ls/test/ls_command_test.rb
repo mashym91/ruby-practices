@@ -2,7 +2,6 @@
 
 require 'minitest/autorun'
 require_relative '../lib/ls_command'
-require 'byebug'
 
 class LsCommandTest < Minitest::Test
   TEST_DIR = './test/ls_test_dir'

@@ -51,6 +51,7 @@ class LsCommandTest < Minitest::Test
   def test_dir_l_options
     ls = LS::Command.new(['l'], TEST_DIR)
     result = <<~TEXT
+      total 0
       drwxr-xr-x  3 mashym91  staff  96  6 11 18:43 a.txt
       drwxr-xr-x  3 mashym91  staff  96  6 11 18:43 b.txt
       -rw-r--r--  1 mashym91  staff  0  6 11 18:42 c.txt
@@ -63,13 +64,13 @@ class LsCommandTest < Minitest::Test
       -rw-r--r--  1 mashym91  staff  0  6 11 16:36 j.txt
       -rw-r--r--  1 mashym91  staff  0  6 11 16:36 k.txt
     TEXT
-    # ヒアドキュメントで最後に改行コードが入るので削除
-    assert_equal result.gsub(/\n$/, ''), ls.exec
+    assert_equal result.gsub(/\n$/, ''), ls.exec # ヒアドキュメントで最後に改行コードが入るので削除
   end
 
   def test_dir_al_options
     ls = LS::Command.new(%w[a l], TEST_DIR)
     result = <<~TEXT
+      total 0
       drwxr-xr-x  13 mashym91  staff  416  6 11 22:59 .
       drwxr-xr-x  4 mashym91  staff  128  6 11 17:16 ..
       drwxr-xr-x  3 mashym91  staff  96  6 11 18:43 a.txt
@@ -84,8 +85,7 @@ class LsCommandTest < Minitest::Test
       -rw-r--r--  1 mashym91  staff  0  6 11 16:36 j.txt
       -rw-r--r--  1 mashym91  staff  0  6 11 16:36 k.txt
     TEXT
-    # ヒアドキュメントで最後に改行コードが入るので削除
-    assert_equal result.gsub(/\n$/, ''), ls.exec
+    assert_equal result.gsub(/\n$/, ''), ls.exec # ヒアドキュメントで最後に改行コードが入るので削除
   end
 
   def test_dir_ar_options
@@ -103,6 +103,7 @@ class LsCommandTest < Minitest::Test
   def test_dir_lr_options
     ls = LS::Command.new(%w[l r], TEST_DIR)
     result = <<~TEXT
+      total 0
       -rw-r--r--  1 mashym91  staff  0  6 11 16:36 k.txt
       -rw-r--r--  1 mashym91  staff  0  6 11 16:36 j.txt
       -rw-r--r--  1 mashym91  staff  0  6 11 18:42 i.txt
@@ -115,13 +116,13 @@ class LsCommandTest < Minitest::Test
       drwxr-xr-x  3 mashym91  staff  96  6 11 18:43 b.txt
       drwxr-xr-x  3 mashym91  staff  96  6 11 18:43 a.txt
     TEXT
-    # ヒアドキュメントで最後に改行コードが入るので削除
-    assert_equal result.gsub(/\n$/, ''), ls.exec
+    assert_equal result.gsub(/\n$/, ''), ls.exec # ヒアドキュメントで最後に改行コードが入るので削除
   end
 
   def test_dir_all_options
     ls = LS::Command.new(%w[a l r], TEST_DIR)
     result = <<~TEXT
+      total 0
       -rw-r--r--  1 mashym91  staff  0  6 11 16:36 k.txt
       -rw-r--r--  1 mashym91  staff  0  6 11 16:36 j.txt
       -rw-r--r--  1 mashym91  staff  0  6 11 18:42 i.txt
@@ -136,8 +137,7 @@ class LsCommandTest < Minitest::Test
       drwxr-xr-x  4 mashym91  staff  128  6 11 17:16 ..
       drwxr-xr-x  13 mashym91  staff  416  6 11 22:59 .
     TEXT
-    # ヒアドキュメントで最後に改行コードが入るので削除
-    assert_equal result.gsub(/\n$/, ''), ls.exec
+    assert_equal result.gsub(/\n$/, ''), ls.exec # ヒアドキュメントで最後に改行コードが入るので削除
   end
 
   # ファイル指定
@@ -148,7 +148,11 @@ class LsCommandTest < Minitest::Test
 
   def test_file_l_options
     ls = LS::Command.new(['l'], TEST_FILE)
-    assert_equal '-rw-r--r--  1 mashym91  staff  0  6 11 18:42 ./test/ls_test_dir/c.txt', ls.exec
+    result = <<~TEXT
+      total 0
+      -rw-r--r--  1 mashym91  staff  0  6 11 18:42 ./test/ls_test_dir/c.txt
+    TEXT
+    assert_equal result.gsub(/\n$/, ''), ls.exec # ヒアドキュメントで最後に改行コードが入るので削除
   end
 
   def test_file_a_options
@@ -163,12 +167,20 @@ class LsCommandTest < Minitest::Test
 
   def test_file_all_options
     ls = LS::Command.new(%w[a l r], TEST_FILE)
-    assert_equal '-rw-r--r--  1 mashym91  staff  0  6 11 18:42 ./test/ls_test_dir/c.txt', ls.exec
+    result = <<~TEXT
+      total 0
+      -rw-r--r--  1 mashym91  staff  0  6 11 18:42 ./test/ls_test_dir/c.txt
+    TEXT
+    assert_equal result.gsub(/\n$/, ''), ls.exec # ヒアドキュメントで最後に改行コードが入るので削除
   end
 
   def test_file_al_options
     ls = LS::Command.new(%w[a l], TEST_FILE)
-    assert_equal '-rw-r--r--  1 mashym91  staff  0  6 11 18:42 ./test/ls_test_dir/c.txt', ls.exec
+    result = <<~TEXT
+      total 0
+      -rw-r--r--  1 mashym91  staff  0  6 11 18:42 ./test/ls_test_dir/c.txt
+    TEXT
+    assert_equal result.gsub(/\n$/, ''), ls.exec # ヒアドキュメントで最後に改行コードが入るので削除
   end
 
   def test_file_ar_options
@@ -178,7 +190,11 @@ class LsCommandTest < Minitest::Test
 
   def test_file_lr_options
     ls = LS::Command.new(%w[l r], TEST_FILE)
-    assert_equal '-rw-r--r--  1 mashym91  staff  0  6 11 18:42 ./test/ls_test_dir/c.txt', ls.exec
+    result = <<~TEXT
+      total 0
+      -rw-r--r--  1 mashym91  staff  0  6 11 18:42 ./test/ls_test_dir/c.txt
+    TEXT
+    assert_equal result.gsub(/\n$/, ''), ls.exec # ヒアドキュメントで最後に改行コードが入るので削除
   end
 end
 # rubocop:enable Metrics/ClassLength

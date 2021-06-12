@@ -4,7 +4,7 @@ require 'etc'
 
 module LS
   class File
-    attr_reader :file_name
+    attr_reader :file_name, :blocks
 
     def initialize(file)
       stat = ::File.stat(file)
@@ -17,6 +17,11 @@ module LS
       @group_name = Etc.getgrgid(stat.gid).name
       @size = stat.size
       @mtime = stat.mtime
+      @blocks = stat.blocks
+    end
+
+    def self.sum_blocks(blocks)
+      blocks.map!(&:to_i).inject(:+)
     end
 
     def build_detail_info
@@ -27,7 +32,7 @@ module LS
       file_info += "#{@owner_name}  " # オーナー名
       file_info += "#{@group_name}  " # グループ名
       file_info += "#{@size}  " # バイトサイズ
-      file_info += "#{@mtime.strftime('%-m %d %H:%M')} " # タイムスタンプ
+      file_info += "#{@mtime.strftime('%-m %-d %H:%M')} " # タイムスタンプ
       file_info + @file_name # ファイル名
     end
 

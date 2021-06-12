@@ -15,13 +15,17 @@ module LS
     def exec
       files = read_files.map { |file| LS::File.new(file) }
 
-      files.map!(&:build_detail_info) if @options.include?('l')
+      if @options.include?('l')
+        total = LS::File.sum_blocks(files.map{|f| f.blocks})
+        files.map!(&:build_detail_info)
+      end
 
       Dir.chdir(@current_dir) # ディレクトリを元に戻す
 
       files.reverse! if @options.include?('r')
 
       if @options.include?('l')
+        files.unshift("total #{total}")
         files.join("\n")
       else
         generate_formatted_files_from_defined_column(files) # DISPLAY_COLUMN毎の表示

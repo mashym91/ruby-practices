@@ -3,7 +3,7 @@
 require 'etc'
 
 class LsCommand
-  DISPLAY_ROW = 3
+  DISPLAY_COLUMN = 3 # 列
 
   def initialize(options, file_or_dir)
     @options = options
@@ -27,7 +27,7 @@ class LsCommand
     if @options.include?('l')
       files.join("\n")
     else
-      generate_formatted_files_from_defined_row(files) # DISPLAY_ROW毎の表示
+      generate_formatted_files_from_defined_column(files) # DISPLAY_COLUMN毎の表示
     end
   end
 
@@ -68,17 +68,17 @@ class LsCommand
     mode.slice(-3..-1).chars.map { |item| permissions[item] }.join
   end
 
-  def generate_formatted_files_from_defined_row(files)
-    line = (files.count.to_f / DISPLAY_ROW).ceil
+  def generate_formatted_files_from_defined_column(files)
+    row = (files.count.to_f / DISPLAY_COLUMN).ceil  # 行
     sort_files = []
-    line.times { sort_files << [] }
+    row.times { sort_files << [] }
 
-    line.times do |line_index|
-      DISPLAY_ROW.times do |row_index|
-        sort_files[line_index] << files[line_index + line * row_index] ||= ''
-        sort_files[line_index] << "\t"
+    row.times do |row_index|
+      DISPLAY_COLUMN.times do |column_index|
+        sort_files[row_index] << files[row_index + row * column_index] ||= ''
+        sort_files[row_index] << "\t"
       end
-      sort_files[line_index] << "\n"
+      sort_files[row_index] << "\n"
     end
 
     sort_files.join('')

@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 require 'minitest/autorun'
-require_relative '../lib/ls_command'
+require_relative '../lib/ls/command'
 
 # rubocop:disable Metrics/ClassLength
 class LsCommandTest < Minitest::Test
@@ -9,13 +9,13 @@ class LsCommandTest < Minitest::Test
   TEST_FILE = './test/ls_test_dir/c.txt'
 
   def test_no_dir_no_option
-    ls = LsCommand.new([], nil)
+    ls = LS::Command.new([], nil)
     assert_equal "lib\ttest\t\t\n", ls.exec
   end
 
   # ディレクトリ指定
   def test_dir_no_option
-    ls = LsCommand.new([], TEST_DIR)
+    ls = LS::Command.new([], TEST_DIR)
     result = <<~TEXT
       a.txt\te.txt\ti.txt\t
       b.txt\tf.txt\tj.txt\t
@@ -26,7 +26,7 @@ class LsCommandTest < Minitest::Test
   end
 
   def test_dir_a_options
-    ls = LsCommand.new(['a'], TEST_DIR)
+    ls = LS::Command.new(['a'], TEST_DIR)
     result = <<~TEXT
       .\td.txt\ti.txt\t
       ..\te.txt\tj.txt\t
@@ -38,7 +38,7 @@ class LsCommandTest < Minitest::Test
   end
 
   def test_dir_r_options
-    ls = LsCommand.new(['r'], TEST_DIR)
+    ls = LS::Command.new(['r'], TEST_DIR)
     result = <<~TEXT
       k.txt\tg.txt\tc.txt\t
       j.txt\tf.txt\tb.txt\t
@@ -49,7 +49,7 @@ class LsCommandTest < Minitest::Test
   end
 
   def test_dir_l_options
-    ls = LsCommand.new(['l'], TEST_DIR)
+    ls = LS::Command.new(['l'], TEST_DIR)
     result = <<~TEXT
       drwxr-xr-x  3 mashym91  staff  96  6 11 18:43 a.txt
       drwxr-xr-x  3 mashym91  staff  96  6 11 18:43 b.txt
@@ -68,7 +68,7 @@ class LsCommandTest < Minitest::Test
   end
 
   def test_dir_al_options
-    ls = LsCommand.new(%w[a l], TEST_DIR)
+    ls = LS::Command.new(%w[a l], TEST_DIR)
     result = <<~TEXT
       drwxr-xr-x  13 mashym91  staff  416  6 11 22:59 .
       drwxr-xr-x  4 mashym91  staff  128  6 11 17:16 ..
@@ -89,7 +89,7 @@ class LsCommandTest < Minitest::Test
   end
 
   def test_dir_ar_options
-    ls = LsCommand.new(%w[a r], TEST_DIR)
+    ls = LS::Command.new(%w[a r], TEST_DIR)
     result = <<~TEXT
       k.txt\tf.txt\ta.txt\t
       j.txt\te.txt\t..\t
@@ -101,7 +101,7 @@ class LsCommandTest < Minitest::Test
   end
 
   def test_dir_lr_options
-    ls = LsCommand.new(%w[l r], TEST_DIR)
+    ls = LS::Command.new(%w[l r], TEST_DIR)
     result = <<~TEXT
       -rw-r--r--  1 mashym91  staff  0  6 11 16:36 k.txt
       -rw-r--r--  1 mashym91  staff  0  6 11 16:36 j.txt
@@ -120,7 +120,7 @@ class LsCommandTest < Minitest::Test
   end
 
   def test_dir_all_options
-    ls = LsCommand.new(%w[a l r], TEST_DIR)
+    ls = LS::Command.new(%w[a l r], TEST_DIR)
     result = <<~TEXT
       -rw-r--r--  1 mashym91  staff  0  6 11 16:36 k.txt
       -rw-r--r--  1 mashym91  staff  0  6 11 16:36 j.txt
@@ -142,42 +142,42 @@ class LsCommandTest < Minitest::Test
 
   # ファイル指定
   def test_file_no_option
-    ls = LsCommand.new([], TEST_FILE)
+    ls = LS::Command.new([], TEST_FILE)
     assert_equal "./test/ls_test_dir/c.txt\t\t\t\n", ls.exec
   end
 
   def test_file_l_options
-    ls = LsCommand.new(['l'], TEST_FILE)
+    ls = LS::Command.new(['l'], TEST_FILE)
     assert_equal '-rw-r--r--  1 mashym91  staff  0  6 11 18:42 ./test/ls_test_dir/c.txt', ls.exec
   end
 
   def test_file_a_options
-    ls = LsCommand.new(['a'], TEST_FILE)
+    ls = LS::Command.new(['a'], TEST_FILE)
     assert_equal "./test/ls_test_dir/c.txt\t\t\t\n", ls.exec
   end
 
   def test_file_r_options
-    ls = LsCommand.new(['r'], TEST_FILE)
+    ls = LS::Command.new(['r'], TEST_FILE)
     assert_equal "./test/ls_test_dir/c.txt\t\t\t\n", ls.exec
   end
 
   def test_file_all_options
-    ls = LsCommand.new(%w[a l r], TEST_FILE)
+    ls = LS::Command.new(%w[a l r], TEST_FILE)
     assert_equal '-rw-r--r--  1 mashym91  staff  0  6 11 18:42 ./test/ls_test_dir/c.txt', ls.exec
   end
 
   def test_file_al_options
-    ls = LsCommand.new(%w[a l], TEST_FILE)
+    ls = LS::Command.new(%w[a l], TEST_FILE)
     assert_equal '-rw-r--r--  1 mashym91  staff  0  6 11 18:42 ./test/ls_test_dir/c.txt', ls.exec
   end
 
   def test_file_ar_options
-    ls = LsCommand.new(%w[a r], TEST_FILE)
+    ls = LS::Command.new(%w[a r], TEST_FILE)
     assert_equal "./test/ls_test_dir/c.txt\t\t\t\n", ls.exec
   end
 
   def test_file_lr_options
-    ls = LsCommand.new(%w[l r], TEST_FILE)
+    ls = LS::Command.new(%w[l r], TEST_FILE)
     assert_equal '-rw-r--r--  1 mashym91  staff  0  6 11 18:42 ./test/ls_test_dir/c.txt', ls.exec
   end
 end

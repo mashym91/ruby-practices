@@ -3,7 +3,7 @@
 require 'etc'
 
 class LsCommand
-  DISPLAY_ROW = 3
+  DISPLAY_LINE = 3
 
   def initialize(options, file_or_dir)
     @options = options
@@ -16,7 +16,7 @@ class LsCommand
 
     if @options.include?('l')
       files.map! do |file|
-        generate_l_command_format(file)
+        generate_formatted_l_option(file)
       end
     end
 
@@ -27,7 +27,7 @@ class LsCommand
     if @options.include?('l')
       files.join("\n")
     else
-      generate_column_format(files) # DISPLAY_ROW毎の表示
+      generate_formatted_files_from_defined_line(files) # DISPLAY_LINE毎の表示
     end
   end
 
@@ -47,7 +47,7 @@ class LsCommand
     end
   end
 
-  def generate_l_command_format(file)
+  def generate_formatted_l_option(file)
     file_info = ''
     stat = File.stat(file)
     mode = stat.mode.to_s(8)
@@ -68,14 +68,14 @@ class LsCommand
     mode.slice(-3..-1).chars.map { |item| permissions[item] }.join
   end
 
-  def generate_column_format(files)
-    column = (files.count.to_f / DISPLAY_ROW).ceil
+  def generate_formatted_files_from_defined_line(files)
+    column = (files.count.to_f / DISPLAY_LINE).ceil
     sort_files = []
     column.times { sort_files << [] }
 
     column.times do |column_index|
-      DISPLAY_ROW.times do |row_index|
-        sort_files[column_index] << files[column_index + column * row_index] ||= ''
+      DISPLAY_LINE.times do |line_index|
+        sort_files[column_index] << files[column_index + column * line_index] ||= ''
         sort_files[column_index] << "\t"
       end
       sort_files[column_index] << "\n"

@@ -3,6 +3,7 @@
 require 'minitest/autorun'
 require_relative '../lib/ls_command'
 
+# rubocop:disable Metrics/ClassLength
 class LsCommandTest < Minitest::Test
   TEST_DIR = './test/ls_test_dir'
   TEST_FILE = './test/ls_test_dir/c.txt'
@@ -180,3 +181,4 @@ class LsCommandTest < Minitest::Test
     assert_equal '-rw-r--r--  1 mashym91  staff  0  6 11 18:42 ./test/ls_test_dir/c.txt', ls.exec
   end
 end
+# rubocop:enable Metrics/ClassLength

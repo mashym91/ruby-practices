@@ -16,7 +16,7 @@ class LsCommand
 
     if @options.include?('l')
       files.map! do |file|
-        generate_formatted_l_option(file)
+        generate_detail_info(file)
       end
     end
 
@@ -47,7 +47,7 @@ class LsCommand
     end
   end
 
-  def generate_formatted_l_option(file)
+  def generate_detail_info(file)
     file_info = ''
     stat = File.stat(file)
     mode = stat.mode.to_s(8)

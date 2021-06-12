@@ -11,6 +11,7 @@ module LS
       mode = stat.mode.to_s(8)
 
       @file_name = file
+      @file_type = stat.ftype
       @permission = convert_permission_to_symbolic_notation(mode)
       @link_count = stat.nlink
       @owner_name = Etc.getpwuid(stat.uid).name
@@ -26,7 +27,7 @@ module LS
 
     def build_detail_info
       file_info = ''
-      file_info += ::File.directory?(@file_name) ? 'd' : '-' # ファイルタイプ
+      file_info += @file_type == 'directory' ? 'd' : '-' # ファイルタイプ
       file_info += "#{@permission}  " # パーミション
       file_info += "#{@link_count} " # ハードリンクの数
       file_info += "#{@owner_name}  " # オーナー名

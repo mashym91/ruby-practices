@@ -15,16 +15,13 @@ module LS
     def exec
       files = read_files.map { |file| LS::File.new(file) }
 
-      if @options.include?('l')
-        total = LS::File.sum_blocks(files.map{|f| f.blocks})
-        files.map!(&:build_detail_info)
-      end
-
       Dir.chdir(@current_dir) # ディレクトリを元に戻す
 
       files.reverse! if @options.include?('r')
 
       if @options.include?('l')
+        total = LS::File.sum_blocks(files.map{|f| f.blocks})
+        files.map!(&:build_detail_info)
         files.unshift("total #{total}")
         files.join("\n")
       else

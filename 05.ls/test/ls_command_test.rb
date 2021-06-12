@@ -87,7 +87,7 @@ class LsCommandTest < Minitest::Test
   end
 
   def test_dir_all_options
-    ls = LsCommand.new(['a', 'l', 'r'], TEST_DIR)
+    ls = LsCommand.new(%w[a l r], TEST_DIR)
     result = <<~TEXT
       -rw-r--r--  1 mashym91  staff  0  6 11 16:36 k.txt
       -rw-r--r--  1 mashym91  staff  0  6 11 16:36 j.txt
@@ -108,7 +108,7 @@ class LsCommandTest < Minitest::Test
   end
 
   def test_file_all_options
-    ls = LsCommand.new(['a', 'l', 'r'], TEST_FILE)
+    ls = LsCommand.new(%w[a l r], TEST_FILE)
     assert_equal '-rw-r--r--  1 mashym91  staff  0  6 11 18:42 ./test/ls_test_dir/c.txt', ls.exec
   end
 end

@@ -9,7 +9,7 @@ module LS
     def initialize(options, file_or_dir)
       @options = options
       @current_dir = Dir.pwd
-      @file_or_dir = file_or_dir.nil? ? @current_dir : file_or_dir
+      @file_or_dir = file_or_dir || @current_dir
     end
 
     def exec

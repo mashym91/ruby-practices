@@ -21,9 +21,9 @@ module LS
 
       if @options.include?('l')
         total = LS::File.sum_blocks(files)
-        files.map!(&:build_detail_info)
-        files.unshift("total #{total}")
-        files.join("\n")
+        files_with_details_info = files.map(&:build_detail_info)
+        files_with_details_info.unshift("total #{total}")
+        files_with_details_info.join("\n")
       else
         generate_formatted_files_from_defined_column(files) # DISPLAY_COLUMN毎の表示
       end

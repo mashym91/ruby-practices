@@ -20,7 +20,7 @@ module LS
       files.reverse! if @options.include?('r')
 
       if @options.include?('l')
-        total = LS::File.sum_blocks(files.map(&:blocks))
+        total = LS::File.sum_blocks(files)
         files.map!(&:build_detail_info)
         files.unshift("total #{total}")
         files.join("\n")

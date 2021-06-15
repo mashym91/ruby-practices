@@ -21,8 +21,8 @@ module LS
       @blocks = stat.blocks
     end
 
-    def self.sum_blocks(blocks)
-      blocks.map!(&:to_i).inject(:+)
+    def self.sum_blocks(files)
+      files.inject(0) { |result, file| result + file.blocks.to_i }
     end
 
     def build_detail_info

@@ -12,8 +12,8 @@ module WC
     def exec
       if @files.empty?
         # ファイル名を指定しない場合は標準入力から読み込む
-        standard_input = $stdin.readlines
-        generate_one_line_for_display(standard_input.count, standard_input.join.split(/\s+/).count, standard_input.join.bytesize)
+        stdin = $stdin.readlines
+        generate_one_line_for_display(stdin.count, stdin.join.split(/\s+/).count, stdin.join.bytesize)
       else
         total_lines = 0
         total_words = 0

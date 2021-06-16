@@ -20,18 +20,22 @@ class WcCommandTest < Minitest::Test
 
   def test_specify_multi_files_and_no_options
     wc = WC::Command.new([], [TEST_FILE_1, TEST_FILE_2])
-    result = "       6      45     201 ./test/data/wc_test1.txt
-    6       6     402 ./test/data/wc_test2.txt
-   12      51     603 total"
-    assert_equal result, wc.exec
+    result = <<~TEXT
+      \s\s\s\s\s\s\s6      45     201 ./test/data/wc_test1.txt
+      \s\s\s\s\s\s\s6       6     402 ./test/data/wc_test2.txt
+      \s\s\s\s\s\s12      51     603 total
+    TEXT
+    assert_equal result.gsub(/\n$/, ''), wc.exec
   end
 
   def test_specify_multi_files_and_l_option
     wc = WC::Command.new(['l'], [TEST_FILE_1, TEST_FILE_2])
-    result = "       6 ./test/data/wc_test1.txt
-    6 ./test/data/wc_test2.txt
-   12 total"
-    assert_equal result, wc.exec
+    result = <<~TEXT
+      \s\s\s\s\s\s\s6 ./test/data/wc_test1.txt
+      \s\s\s\s\s\s\s6 ./test/data/wc_test2.txt
+      \s\s\s\s\s\s12 total
+    TEXT
+    assert_equal result.gsub(/\n$/, ''), wc.exec
   end
 
   # 標準入力
@@ -46,7 +50,12 @@ class WcCommandTest < Minitest::Test
   # end
 
   def test_stdin_and_l_option
-    $stdin = StringIO.new("")
+    str = <<~TEXT
+      total 16
+      -rw-r--r--  1 mashym91  staff  201  6 16 16:09 wc_test1.txt
+      -rw-r--r--  1 mashym91  staff  402  6 16 16:09 wc_test2.txt
+    TEXT
+    $stdin = StringIO.new(str)
     wc = WC::Command.new(['l'], [])
     assert_equal "       3", wc.exec
     $stdin = STDIN

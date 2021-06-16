@@ -39,15 +39,17 @@ class WcCommandTest < Minitest::Test
   end
 
   # 標準入力
-  # option無しがlsコマンドと表示が異なるため一旦コメントアウト（ファイル名の改行が考慮されていない）
-  # def test_stdin_and_no_options
-  #   $stdin = StringIO.new("wc_test1.txt
-  #     wc_test2.txt")
-  #   wc = WC::Command.new([], [])
-#
-  #   assert_equal "       1       2      28", wc.exec
-  #   $stdin = STDIN
-  # end
+  def test_stdin_and_no_options
+    str = <<~TEXT
+      total 16
+      -rw-r--r--  1 mashym91  staff  201  6 16 16:09 wc_test1.txt
+      -rw-r--r--  1 mashym91  staff  402  6 16 16:09 wc_test2.txt
+    TEXT
+    $stdin = StringIO.new(str)
+    wc = WC::Command.new([], [])
+    assert_equal "       3      20     129", wc.exec
+    $stdin = STDIN
+  end
 
   def test_stdin_and_l_option
     str = <<~TEXT

@@ -10,12 +10,12 @@ class WcCommandTest < Minitest::Test
   # ファイル指定
   def test_specify_a_file_and_no_options
     wc = WC::Command.new([], [TEST_FILE_1])
-    assert_equal "       6      45     201 ./test/data/wc_test1.txt", wc.exec
+    assert_equal '       6      45     201 ./test/data/wc_test1.txt', wc.exec
   end
 
   def test_specify_a_file_and_l_option
     wc = WC::Command.new(['l'], [TEST_FILE_1])
-    assert_equal "       6 ./test/data/wc_test1.txt", wc.exec
+    assert_equal '       6 ./test/data/wc_test1.txt', wc.exec
   end
 
   def test_specify_multi_files_and_no_options
@@ -47,7 +47,7 @@ class WcCommandTest < Minitest::Test
     TEXT
     $stdin = StringIO.new(str)
     wc = WC::Command.new([], [])
-    assert_equal "       3      20     129", wc.exec
+    assert_equal '       3      20     129', wc.exec
     $stdin = STDIN
   end
 
@@ -59,7 +59,7 @@ class WcCommandTest < Minitest::Test
     TEXT
     $stdin = StringIO.new(str)
     wc = WC::Command.new(['l'], [])
-    assert_equal "       3", wc.exec
+    assert_equal '       3', wc.exec
     $stdin = STDIN
   end
 end

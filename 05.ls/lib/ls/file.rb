@@ -4,7 +4,7 @@ require 'etc'
 
 module LS
   class File
-    attr_reader :file_name, :blocks
+    attr_reader :file_name, :blocks, :permission, :owner_name, :group_name
 
     def initialize(file)
       stat = ::File.stat(file)
@@ -28,13 +28,17 @@ module LS
     def build_detail_info
       file_info = ''
       file_info += @file_type == 'directory' ? 'd' : '-' # ファイルタイプ
-      file_info += "#{@permission}  " # パーミション
+      file_info += "#{permission}  " # パーミション
       file_info += "#{@link_count} " # ハードリンクの数
-      file_info += "#{@owner_name}  " # オーナー名
-      file_info += "#{@group_name}  " # グループ名
+      file_info += "#{owner_name}  " # オーナー名
+      file_info += "#{group_name}  " # グループ名
       file_info += "#{@size}  " # バイトサイズ
-      file_info += "#{@mtime.strftime('%-m %-d %H:%M')} " # タイムスタンプ
+      file_info += "#{timestamp} " # タイムスタンプ
       file_info + @file_name # ファイル名
+    end
+
+    def timestamp
+      @mtime.strftime('%-m %-d %H:%M')
     end
 
     private

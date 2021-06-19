@@ -53,8 +53,9 @@ class LsCommandTest < Minitest::Test
     files_detail_info = [
       'drwxrwxr-x  3 dummy  dummy  96  6 18 22:55 a.txt',
       'drwxrwxr-x  3 dummy  dummy  96  6 18 22:55 b.txt',
-      '-rw-rw-r--  1 dummy  dummy  0  6 18 22:55 c.txt']
-    
+      '-rw-rw-r--  1 dummy  dummy  0  6 18 22:55 c.txt'
+    ]
+
     ls.stub(:files_detail_info, files_detail_info) do
       result = <<~TEXT
         total 0
@@ -64,8 +65,6 @@ class LsCommandTest < Minitest::Test
       TEXT
       assert_equal result.gsub(/\n$/, ''), ls.exec # ヒアドキュメントで最後に改行コードが入るので削除
     end
-
-    
   end
 
   def test_dir_al_options

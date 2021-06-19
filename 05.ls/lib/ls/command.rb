@@ -21,7 +21,7 @@ module LS
 
       if @options.include?('l')
         total = LS::File.sum_blocks(files)
-        files_with_details_info = files.map(&:build_detail_info)
+        files_with_details_info = files_detail_info(files)
         files_with_details_info.unshift("total #{total}")
         files_with_details_info.join("\n")
       else
@@ -30,6 +30,10 @@ module LS
     end
 
     private
+
+    def files_detail_info(files)
+      files.map(&:build_detail_info)
+    end
 
     def read_files
       if ::File.directory?(@file_or_dir)

@@ -50,21 +50,22 @@ class LsCommandTest < Minitest::Test
 
   def test_dir_l_options
     ls = LS::Command.new(['l'], TEST_DIR)
-    result = <<~TEXT
-      total 0
-      drwxr-xr-x  3 mashym91  staff  96  6 11 18:43 a.txt
-      drwxr-xr-x  3 mashym91  staff  96  6 11 18:43 b.txt
-      -rw-r--r--  1 mashym91  staff  0  6 11 18:42 c.txt
-      -rw-r--r--  1 mashym91  staff  0  6 11 18:42 d.txt
-      -rw-r--r--  1 mashym91  staff  0  6 11 18:42 e.txt
-      -rw-r--r--  1 mashym91  staff  0  6 11 18:42 f.txt
-      -rw-r--r--  1 mashym91  staff  0  6 11 18:42 g.txt
-      -rw-r--r--  1 mashym91  staff  0  6 11 18:42 h.txt
-      -rw-r--r--  1 mashym91  staff  0  6 11 18:42 i.txt
-      -rw-r--r--  1 mashym91  staff  0  6 11 16:36 j.txt
-      -rw-r--r--  1 mashym91  staff  0  6 11 16:36 k.txt
-    TEXT
-    assert_equal result.gsub(/\n$/, ''), ls.exec # ヒアドキュメントで最後に改行コードが入るので削除
+    files_detail_info = [
+      'drwxrwxr-x  3 dummy  dummy  96  6 18 22:55 a.txt',
+      'drwxrwxr-x  3 dummy  dummy  96  6 18 22:55 b.txt',
+      '-rw-rw-r--  1 dummy  dummy  0  6 18 22:55 c.txt']
+    
+    ls.stub(:files_detail_info, files_detail_info) do
+      result = <<~TEXT
+        total 0
+        drwxrwxr-x  3 dummy  dummy  96  6 18 22:55 a.txt
+        drwxrwxr-x  3 dummy  dummy  96  6 18 22:55 b.txt
+        -rw-rw-r--  1 dummy  dummy  0  6 18 22:55 c.txt
+      TEXT
+      assert_equal result.gsub(/\n$/, ''), ls.exec # ヒアドキュメントで最後に改行コードが入るので削除
+    end
+
+    
   end
 
   def test_dir_al_options

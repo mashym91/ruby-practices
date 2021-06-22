@@ -15,7 +15,7 @@ module WC
         stdin = $stdin.readlines
         generate_one_line_for_display(stdin.count, stdin.join.split(/\s+/).count, stdin.join.bytesize)
       else
-        wc_files = @files.map { |file| WC::File.new(file) }
+        wc_files = target_files
         files_display_info = wc_files.map { |wc_f| generate_one_line_for_display(wc_f.lines, wc_f.words, wc_f.bytes, " #{wc_f.file}") }
         total_lines = wc_files.sum(&:lines)
         total_words = wc_files.sum(&:words)
@@ -26,6 +26,10 @@ module WC
     end
 
     private
+
+    def target_files
+      @files.map { |file| WC::File.new(file) }
+    end
 
     def generate_one_line_for_display(lines, words, bytes, suffix_str = nil)
       if @options.include?('l')

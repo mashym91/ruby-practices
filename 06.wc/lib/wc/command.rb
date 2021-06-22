@@ -15,17 +15,11 @@ module WC
         stdin = $stdin.readlines
         generate_one_line_for_display(stdin.count, stdin.join.split(/\s+/).count, stdin.join.bytesize)
       else
-        total_lines = 0
-        total_words = 0
-        total_bytes = 0
-        files_display_info = []
-        @files.each do |file|
-          wc_file = WC::File.new(file)
-          files_display_info << generate_one_line_for_display(wc_file.lines, wc_file.words, wc_file.bytes, " #{file}")
-          total_lines += wc_file.lines
-          total_words += wc_file.words
-          total_bytes += wc_file.bytes
-        end
+        wc_files = @files.map { |file| WC::File.new(file) }
+        files_display_info = wc_files.map { |wc_f| generate_one_line_for_display(wc_f.lines, wc_f.words, wc_f.bytes, " #{wc_f.file}") }
+        total_lines = wc_files.sum(&:lines)
+        total_words = wc_files.sum(&:words)
+        total_bytes = wc_files.sum(&:bytes)
         files_display_info << generate_one_line_for_display(total_lines, total_words, total_bytes, ' total') if @files.count > 1
         files_display_info.join("\n")
       end

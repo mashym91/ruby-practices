@@ -40,7 +40,7 @@ module WC
     end
 
     def convert_to_display_format(item)
-      format('% 8d', item).to_s
+      format('% 8d', item)
     end
   end
 end
